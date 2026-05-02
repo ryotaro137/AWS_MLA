@@ -1,0 +1,55 @@
+---
+layout: base.njk
+pagination:
+  data: til
+  size: 1
+  alias: entry
+permalink: "/til/{{ entry.date }}/"
+eleventyComputed:
+  title: "{{ entry.date }} | TIL"
+---
+
+<div class="til-detail-header">
+  <a href="/til/" style="color: var(--text-secondary); font-size: 0.85rem;">← TIL 一覧に戻る</a>
+  <br><br>
+  <time class="til-detail-date" datetime="{{ entry.date }}">{{ entry.displayDate }}</time>
+  <div class="til-detail-topics">
+    {% for topic in entry.topics %}
+      <span class="topic-tag">{{ topic }}</span>
+    {% endfor %}
+  </div>
+</div>
+
+<article class="markdown-body">
+  {{ entry.content | markdown | safe }}
+</article>
+
+{# 前後ナビゲーション #}
+{% set currentIndex = 0 %}
+{% for e in til %}
+  {% if e.date == entry.date %}
+    {% set currentIndex = loop.index0 %}
+  {% endif %}
+{% endfor %}
+
+<nav class="til-nav">
+  {% if currentIndex < til.length - 1 %}
+    {% set prevEntry = til[currentIndex + 1] %}
+    <a href="/til/{{ prevEntry.date }}/" class="til-nav-prev">
+      <span class="til-nav-label">← 前の記録</span>
+      {{ prevEntry.date }}
+    </a>
+  {% else %}
+    <div></div>
+  {% endif %}
+
+  {% if currentIndex > 0 %}
+    {% set nextEntry = til[currentIndex - 1] %}
+    <a href="/til/{{ nextEntry.date }}/" class="til-nav-next">
+      <span class="til-nav-label">次の記録 →</span>
+      {{ nextEntry.date }}
+    </a>
+  {% else %}
+    <div></div>
+  {% endif %}
+</nav>

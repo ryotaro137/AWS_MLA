@@ -1,0 +1,76 @@
+---
+layout: base.njk
+title: AWS MLA-C01 学習サイト
+---
+
+<div class="page-header">
+  <h1 class="page-title">☁ AWS MLA-C01 学習記録</h1>
+  <p class="page-subtitle">Machine Learning Engineer - Associate 試験対策まとめ</p>
+</div>
+
+{# 統計バッジ #}
+{% set totalDays = til | length %}
+{% set totalTopics = 0 %}
+{% for entry in til %}
+  {% set totalTopics = totalTopics + entry.topics.length %}
+{% endfor %}
+
+<div class="stats-row">
+  <div class="stat-badge">
+    <span class="stat-value">{{ totalDays }}</span>
+    <span class="stat-label">学習日数</span>
+  </div>
+  <div class="stat-badge">
+    <span class="stat-value">{{ totalTopics }}</span>
+    <span class="stat-label">総トピック数</span>
+  </div>
+  <div class="stat-badge">
+    <span class="stat-value">{{ sampleCode | length }}</span>
+    <span class="stat-label">サンプルコード</span>
+  </div>
+</div>
+
+{# ヒートマップ #}
+<div style="margin-bottom: 2.5rem;">
+  <h2 class="section-title">学習ヒートマップ</h2>
+  {% set studyDates = [] %}
+  {% for entry in til %}
+    {% set studyDates = studyDates.concat([entry.date]) %}
+  {% endfor %}
+  <div class="heatmap" id="heatmap" data-dates="{{ studyDates | join(',') }}"></div>
+  <div class="heatmap-legend">
+    <div class="heatmap-cell"></div>学習なし
+    <div class="heatmap-cell active" style="margin-left: 0.5rem;"></div>学習あり
+  </div>
+</div>
+
+{# 最新5件TIL #}
+<section style="margin-bottom: 2.5rem;">
+  <h2 class="section-title">最新の学習記録</h2>
+  <div class="til-grid">
+    {% for item in til | limit(5) %}
+      {% include "til-card.njk" %}
+    {% endfor %}
+  </div>
+  <a href="/til/" style="color: var(--accent-aws); font-size: 0.9rem;">すべてのTILを見る →</a>
+</section>
+
+<script>
+(function() {
+  const heatmap = document.getElementById('heatmap');
+  if (!heatmap) return;
+  const raw = heatmap.dataset.dates;
+  const activeDates = new Set(raw ? raw.split(',') : []);
+
+  // 2026-04-01 から 2026-04-30 の範囲でセルを生成
+  const start = new Date('2026-04-01');
+  const end = new Date('2026-04-30');
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const iso = d.toISOString().split('T')[0];
+    const cell = document.createElement('div');
+    cell.className = 'heatmap-cell' + (activeDates.has(iso) ? ' active' : '');
+    cell.title = iso;
+    heatmap.appendChild(cell);
+  }
+})();
+</script>

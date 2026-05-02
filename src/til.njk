@@ -1,0 +1,30 @@
+---
+layout: base.njk
+title: TIL一覧 | AWS MLA-C01
+permalink: /til/
+---
+
+<div class="page-header">
+  <h1 class="page-title">TIL — Today I Learned</h1>
+  <p class="page-subtitle">全 {{ til | length }} 件の学習記録（降順）</p>
+</div>
+
+<div class="timeline">
+  {% for entry in til %}
+    {% set entryMonth = entry.date | truncate(7, false, "") %}
+    {% if loop.first %}
+      <div class="timeline-month">
+      <div class="timeline-month-label">{{ entryMonth }}</div>
+    {% else %}
+      {% set prevMonth = til[loop.index0 - 1].date | truncate(7, false, "") %}
+      {% if entryMonth != prevMonth %}
+        </div>
+        <div class="timeline-month">
+        <div class="timeline-month-label">{{ entryMonth }}</div>
+      {% endif %}
+    {% endif %}
+    {% set item = entry %}
+    {% include "til-card.njk" %}
+    {% if loop.last %}</div>{% endif %}
+  {% endfor %}
+</div>

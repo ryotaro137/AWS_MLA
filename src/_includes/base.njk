@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or "AWS MLA-C01 Study" }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <span class="brand-icon">☁</span>
+        <span class="brand-text">MLA-C01</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" {% if page.url == "/" %}class="active"{% endif %}>ホーム</a></li>
+        <li><a href="/til/" {% if page.url.startsWith("/til") %}class="active"{% endif %}>TIL</a></li>
+        <li><a href="/code/" {% if page.url == "/code/" %}class="active"{% endif %}>Sample Code</a></li>
+        <li><a href="/search/" {% if page.url == "/search/" %}class="active"{% endif %}>検索</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    {{ content | safe }}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>AWS MLA-C01 学習記録 &mdash; Built with <a href="https://www.11ty.dev" target="_blank" rel="noopener">Eleventy</a></p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/copy.js" defer></script>
+  {% if page.url == "/search/" %}
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+  {% endif %}
+</body>
+</html>

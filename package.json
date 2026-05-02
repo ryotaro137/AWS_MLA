@@ -1,0 +1,19 @@
+{
+  "name": "mla-c01-study-site",
+  "version": "1.0.0",
+  "description": "AWS MLA-C01 学習サイト",
+  "scripts": {
+    "prebuild": "node scripts/prebuild.js",
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "clean": "rm -rf site"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "highlight.js": "^11.10.0",
+    "lunr": "^2.3.9",
+    "lunr-languages": "^1.14.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0"
+  }
+}

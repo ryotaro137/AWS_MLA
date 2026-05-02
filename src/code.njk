@@ -1,0 +1,42 @@
+---
+layout: base.njk
+title: Sample Code | AWS MLA-C01
+permalink: /code/
+---
+
+<div class="page-header">
+  <h1 class="page-title">Sample Code</h1>
+  <p class="page-subtitle">全 {{ sampleCode | length }} ファイル（Jupyter Notebooks + Python Scripts）</p>
+</div>
+
+{% set notebooks = [] %}
+{% set scripts = [] %}
+{% for item in sampleCode %}
+  {% if item.type == 'notebook' %}
+    {% set notebooks = notebooks.concat([item]) %}
+  {% else %}
+    {% set scripts = scripts.concat([item]) %}
+  {% endif %}
+{% endfor %}
+
+{% if notebooks.length > 0 %}
+<section style="margin-bottom: 3rem;">
+  <h2 class="section-title">Jupyter Notebooks</h2>
+  <div class="code-grid">
+    {% for item in notebooks %}
+      {% include "code-card.njk" %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if scripts.length > 0 %}
+<section>
+  <h2 class="section-title">Python Scripts</h2>
+  <div class="code-grid">
+    {% for item in scripts %}
+      {% include "code-card.njk" %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

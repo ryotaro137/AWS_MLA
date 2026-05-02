@@ -1,0 +1,14 @@
+<article class="code-card">
+  <a href="/code/{{ item.slug }}/" class="code-card-link">
+    <div class="code-card-header">
+      <span class="code-badge {% if item.type == 'notebook' %}badge-notebook{% else %}badge-python{% endif %}">
+        {{ "📓 Notebook" if item.type == 'notebook' else "🐍 Python" }}
+      </span>
+      <span class="code-card-size">{{ item.size }}</span>
+    </div>
+    <h3 class="code-card-name">{{ item.name }}</h3>
+    {% if item.description %}
+      <p class="code-card-desc">{{ item.description }}</p>
+    {% endif %}
+  </a>
+</article>

@@ -1,0 +1,13 @@
+<article class="til-card">
+  <a href="/til/{{ item.date }}/" class="til-card-link">
+    <div class="til-card-header">
+      <time class="til-card-date" datetime="{{ item.date }}">{{ item.displayDate }}</time>
+    </div>
+    <div class="til-card-topics">
+      {% for topic in item.topics %}
+        <span class="topic-tag">{{ topic }}</span>
+      {% endfor %}
+    </div>
+    <p class="til-card-body">{{ item.bodyText | truncate(120) }}</p>
+  </a>
+</article>

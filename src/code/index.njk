@@ -1,0 +1,55 @@
+---
+layout: base.njk
+pagination:
+  data: sampleCode
+  size: 1
+  alias: item
+permalink: "/code/{{ item.slug }}/"
+eleventyComputed:
+  title: "{{ item.name }} | Sample Code"
+---
+
+<div style="margin-bottom: 1.5rem;">
+  <a href="/code/" style="color: var(--text-secondary); font-size: 0.85rem;">← Sample Code 一覧に戻る</a>
+</div>
+
+<div class="page-header">
+  <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+    <span class="code-badge {% if item.type == 'notebook' %}badge-notebook{% else %}badge-python{% endif %}">
+      {{ "📓 Notebook" if item.type == 'notebook' else "🐍 Python" }}
+    </span>
+    <span style="color: var(--text-muted); font-size: 0.85rem; font-family: var(--font-mono);">{{ item.size }}</span>
+  </div>
+  <h1 class="page-title" style="font-size: 1.3rem; word-break: break-all;">{{ item.name }}</h1>
+  {% if item.description %}
+    <p class="page-subtitle">{{ item.description }}</p>
+  {% endif %}
+</div>
+
+{% if item.type == 'notebook' %}
+  {# Notebook: セルごとに表示 #}
+  {% set nbData = notebooks[item.slug] %}
+  {% if nbData %}
+    {% for cell in nbData.cells %}
+      <div class="notebook-cell cell-type-{{ cell.type }}">
+        <div class="cell-type-label">{{ "In [ ]" if cell.type == 'code' else "Markdown" }}</div>
+        {% if cell.type == 'code' %}
+          <div class="markdown-body">
+            <pre class="hljs"><code>{{ cell.source | escape }}</code></pre>
+          </div>
+        {% else %}
+          <div class="markdown-body" style="padding: 1rem;">
+            {{ cell.source | markdown | safe }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="color: var(--text-secondary);">ノートブックデータが見つかりません。<code>npm run build</code> を再実行してください。</p>
+  {% endif %}
+{% else %}
+  {# Python script: ハイライト表示 #}
+  <div class="markdown-body">
+    {{ pythonFiles[item.slug] | safe }}
+  </div>
+{% endif %}
